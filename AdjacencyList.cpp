@@ -1,0 +1,97 @@
+
+#include "AdjacencyList.h"
+
+
+AdjacencyList::AdjacencyList(int node_count) {
+    Alist.resize(node_count);
+}
+
+
+bool AdjacencyList::insert_node(int from_node, int to_node, int edge_weight) {
+    Edge* edge = new Edge();
+    edge->next_node = to_node;
+    edge->weight = edge_weight;
+    // cout << edge->next_node << " " << edge->weight << endl;
+    Alist[from_node].push_back(edge);
+    return true;
+}
+
+bool AdjacencyList::del_node(int node_index, vector<int> node_parent) {
+    // todo
+    // 删除节点跟所有子节点的连接边
+    int node_cnt = Alist[node_index].size();
+    for(int i=0; i<node_cnt; i++) {
+        delete Alist[node_index][i];
+    }
+    Alist[node_index].clear();
+    // 删除节点跟所有父节点的连接边
+    for(int i=0; i<node_parent.size(); i++) {
+        int parent_idx = node_parent[i];
+        for(int j=0; j<Alist[parent_idx].size(); j++) {
+            if(Alist[parent_idx][j]->next_node==node_index) {
+                delete Alist[parent_idx][j];
+                Alist[parent_idx].erase(Alist[parent_idx].begin() + j);
+                break;
+            }
+        }
+    }
+    return true;
+}
+
+vector<int> AdjacencyList::get_parent_node(int node_index) {
+    vector<int> node_parent;
+    int node_cnt = Alist[node_index].size();
+    for(int i=0; i<node_cnt; i++) {
+        node_parent.push_back(Alist[node_index][i]->next_node);
+    }
+    return node_parent;
+}
+
+
+int AdjacencyList::get_outdegree(int node_index) {
+    return Alist[node_index].size();
+}
+
+// AdjacencyList::~AdjacencyList() {
+//     for(int i=0; i<Alist.size(); i++) {
+//         int temp = Alist[i].size();
+//         for(int j=0; j<temp; j++) {
+//             delete Alist[i][j];
+//         }
+//         Alist[i].clear();
+//     }
+// }
+
+void AdjacencyList::show_list() {
+    for(int i=0; i<Alist.size(); i++) {
+        cout << "node: " << i << " edge: " ;
+        int temp = Alist[i].size();
+        for(int j=0; j<temp; j++) {
+            cout << i << "->" << Alist[i][j]->next_node << ", ";
+        }
+        cout << endl;
+    }
+}
+
+
+
+int main(int argc, char const *argv[])
+{
+    // 插入示例
+    AdjacencyList graph(7);
+    int x[] = {0, 2, 3, 3, 5, 6};
+    int y[] = {1, 3, 1, 0, 6, 4};
+    for(int i=0; i<6; i++)
+        graph.insert_node(x[i], y[i], 1);
+
+    // cout << graph.get_outdegree(0) << endl;
+    graph.show_list();
+    vector<int> node_parent;
+    node_parent.push_back(2);
+    graph.del_node(3, node_parent);
+    graph.show_list();
+
+    return 0;
+}
+
+
