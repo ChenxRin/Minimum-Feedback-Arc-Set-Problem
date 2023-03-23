@@ -1,3 +1,7 @@
+#include<iostream>
+// #include<vector>
+
+using namespace std;
 
 #include "AdjacencyList.h"
 
@@ -75,23 +79,23 @@ void AdjacencyList::show_list() {
 
 
 
-int main(int argc, char const *argv[])
-{
-    // 插入示例
-    AdjacencyList graph(7);
-    int x[] = {0, 2, 3, 3, 5, 6};
-    int y[] = {1, 3, 1, 0, 6, 4};
-    for(int i=0; i<6; i++)
-        graph.insert_node(x[i], y[i], 1);
+// int main(int argc, char const *argv[])
+// {
+//     // 插入示例
+//     AdjacencyList graph(7);
+//     int x[] = {0, 2, 3, 3, 5, 6};
+//     int y[] = {1, 3, 1, 0, 6, 4};
+//     for(int i=0; i<6; i++)
+//         graph.insert_node(x[i], y[i], 1);
 
-    // cout << graph.get_outdegree(0) << endl;
-    graph.show_list();
-    vector<int> node_parent;
-    node_parent.push_back(2);
-    graph.del_node(3, node_parent);
-    graph.show_list();
+//     // cout << graph.get_outdegree(0) << endl;
+//     graph.show_list();
+//     vector<int> node_parent;
+//     node_parent.push_back(2);
+//     graph.del_node(3, node_parent);
+//     graph.show_list();
 
-    return 0;
-}
+//     return 0;
+// }
 
 
