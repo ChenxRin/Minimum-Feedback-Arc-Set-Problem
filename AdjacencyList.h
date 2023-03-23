@@ -19,10 +19,12 @@ public:
     bool del_node(int node_index, std::vector<int> node_parent);
     int get_outdegree(int node_index);
     void show_list();
-    std::vector<int> get_parent_node(int node_index);
+    // void show_exist_node();
+    std::vector<int> get_son_node(int node_index);
+    // bool judge_exist_edge(int in_node, int out_node);
 private:
     std::vector<std::vector<Edge*> > Alist;
-
+    // std::vector<bool> exist_node;
 };
 
 #endif

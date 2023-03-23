@@ -1,4 +1,5 @@
 #include<iostream>
+// #include<algorithm>
 // #include<vector>
 
 using namespace std;
@@ -8,6 +9,8 @@ using namespace std;
 
 AdjacencyList::AdjacencyList(int node_count) {
     Alist.resize(node_count);
+    // exist_node.resize(node_count);
+    // fill(exist_node.begin(), exist_node.end(), true);
 }
 
 
@@ -27,6 +30,7 @@ bool AdjacencyList::del_node(int node_index, vector<int> node_parent) {
     for(int i=0; i<node_cnt; i++) {
         delete Alist[node_index][i];
     }
+    // exist_node[node_index] = false;
     Alist[node_index].clear();
     // 删除节点跟所有父节点的连接边
     for(int i=0; i<node_parent.size(); i++) {
@@ -42,13 +46,13 @@ bool AdjacencyList::del_node(int node_index, vector<int> node_parent) {
     return true;
 }
 
-vector<int> AdjacencyList::get_parent_node(int node_index) {
-    vector<int> node_parent;
+vector<int> AdjacencyList::get_son_node(int node_index) {
+    vector<int> node_son;
     int node_cnt = Alist[node_index].size();
     for(int i=0; i<node_cnt; i++) {
-        node_parent.push_back(Alist[node_index][i]->next_node);
+        node_son.push_back(Alist[node_index][i]->next_node);
     }
-    return node_parent;
+    return node_son;
 }
 
 
@@ -77,6 +81,17 @@ void AdjacencyList::show_list() {
     }
 }
 
+// bool AdjacencyList::judge_exist_edge(int in_node, int out_node) {
+//     for(int i=0; i<Alist[in_node].size(); i++)
+//         if(Alist[in_node][i]->next_node == out_node)
+//             return true;
+//     return false;
+// }
+
+// void AdjacencyList::show_exist_node() {
+//     for(int i=0; i<exist_node.size(); i++)
+//         cout << i << " " << exist_node[i] << endl;
+// }
 
 
 // int main(int argc, char const *argv[])
@@ -89,11 +104,11 @@ void AdjacencyList::show_list() {
 //         graph.insert_node(x[i], y[i], 1);
 
 //     // cout << graph.get_outdegree(0) << endl;
-//     graph.show_list();
+//     // graph.show_list();
 //     vector<int> node_parent;
 //     node_parent.push_back(2);
 //     graph.del_node(3, node_parent);
-//     graph.show_list();
+//     // graph.show_list();
 
 //     return 0;
 // }
