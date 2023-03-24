@@ -27,9 +27,10 @@ bool AdjacencyList::del_node(int node_index, vector<int> node_parent) {
     // todo
     // 删除节点跟所有子节点的连接边
     int node_cnt = Alist[node_index].size();
-    for(int i=0; i<node_cnt; i++) {
-        delete Alist[node_index][i];
-    }
+    // 别删数据
+    // for(int i=0; i<node_cnt; i++) {
+    //     delete Alist[node_index][i];
+    // }
     // exist_node[node_index] = false;
     Alist[node_index].clear();
     // 删除节点跟所有父节点的连接边
@@ -37,7 +38,8 @@ bool AdjacencyList::del_node(int node_index, vector<int> node_parent) {
         int parent_idx = node_parent[i];
         for(int j=0; j<Alist[parent_idx].size(); j++) {
             if(Alist[parent_idx][j]->next_node==node_index) {
-                delete Alist[parent_idx][j];
+                // 别删数据
+                // delete Alist[parent_idx][j];
                 Alist[parent_idx].erase(Alist[parent_idx].begin() + j);
                 break;
             }

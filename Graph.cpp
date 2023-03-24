@@ -131,25 +131,25 @@ vector<int> Graph::get_out_nodes(int node_index) {
 // }
 
 
-int main(int argc, char const *argv[])
-{
-    Graph graph(7);
-    int x[] = {0, 2, 3, 3, 5, 6};
-    int y[] = {1, 3, 1, 0, 6, 4};
-    for(int i=0; i<6; i++)
-        graph.insert_node(x[i], y[i], 1);
+// int main(int argc, char const *argv[])
+// {
+//     Graph graph(7);
+//     int x[] = {0, 2, 3, 3, 5, 6};
+//     int y[] = {1, 3, 1, 0, 6, 4};
+//     for(int i=0; i<6; i++)
+//         graph.insert_node(x[i], y[i], 1);
 
-    // graph.show_graph();
-    // graph.show_degree();
-    graph.show_exist_node();
+//     // graph.show_graph();
+//     // graph.show_degree();
+//     graph.show_exist_node();
 
-    cout << "删除一个节点3" << endl;
-    graph.del_node(3);
+//     cout << "删除一个节点3" << endl;
+//     graph.del_node(3);
 
-    // graph.show_graph();
-    // graph.show_degree();
-    graph.show_exist_node();
+//     // graph.show_graph();
+//     // graph.show_degree();
+//     graph.show_exist_node();
 
-    return 0;
-}
+//     return 0;
+// }
 
