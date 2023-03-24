@@ -12,9 +12,9 @@ using namespace std;
 
 Graph get_data() {
     Graph graph(7);
-    int x[] = {0, 2, 3, 3, 5, 6};
-    int y[] = {1, 3, 1, 0, 6, 4};
-    for(int i=0; i<6; i++)
+    int x[] = {0, 1, 2, 3, 3, 4, 5, 6};
+    int y[] = {1, 2, 3, 1, 0, 5, 6, 4};
+    for(int i=0; i<8; i++)
         graph.insert_node(x[i], y[i], 1);
     return graph;
 }
@@ -64,7 +64,7 @@ vector<tuple<int, int> > get_back_edge_set(vector<int> min_sort, Graph graph) {
             for(int j=0; j<out_nodes.size(); j++) {
                 if(visited_node.find(out_nodes[j]) != visited_node.end()) {
                     // cout << min_sort[i] << " " << out_nodes[j] << endl;
-                    back_edge_set.push_back(make_tuple(out_nodes[j], min_sort[i]));
+                    back_edge_set.push_back(make_tuple(min_sort[i], out_nodes[j]));
                 }
             } 
         // }
