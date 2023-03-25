@@ -19,8 +19,9 @@ public:
     int get_sink_node();
     int get_max_delta_node();
     int get_exist_node_cnt();
+    void del_edge(int from_node, int to_node);
     std::vector<int> get_out_nodes(int node_index);
-    // bool judge_exist_edge(int in_node, int out_node);
+    bool judge_exist_edge(int in_node, int out_node);
 
 private:
     AdjacencyList out_graph;

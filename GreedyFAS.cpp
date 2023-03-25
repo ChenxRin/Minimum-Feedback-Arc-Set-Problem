@@ -94,6 +94,10 @@ void run(Graph graph) {
     cout << "后向边结果：" << endl;
     for(int i=0; i<back_edge_set.size(); i++)
         cout << get<0>(back_edge_set[i]) << "->" << get<1>(back_edge_set[i]) << endl;
+    // 输出运行结果为：去除后向边之后的子图。
+    for(int i=0; i<back_edge_set.size(); i++)
+        graph.del_edge(get<0>(back_edge_set[i]), get<1>(back_edge_set[i]));
+    graph.show_graph();
 }
 
 

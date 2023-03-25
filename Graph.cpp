@@ -47,6 +47,12 @@ bool Graph::del_node(int node_index) {
 }
 
 
+void Graph::del_edge(int from_node, int to_node) {
+    out_graph.del_edge(from_node, to_node);
+    in_graph.del_edge(to_node, from_node);
+}
+
+
 void Graph::update_degree(int node_index) {
     out_degree[node_index] = out_graph.get_outdegree(node_index);
     in_degree[node_index] = in_graph.get_outdegree(node_index);;
@@ -126,9 +132,9 @@ vector<int> Graph::get_out_nodes(int node_index) {
     return out_graph.get_son_node(node_index);
 }
 
-// bool Graph::judge_exist_edge(int in_node, int out_node) {
-//     return out_graph.judge_exist_edge(in_node, out_node);
-// }
+bool Graph::judge_exist_edge(int in_node, int out_node) {
+    return out_graph.judge_exist_edge(in_node, out_node);
+}
 
 
 // int main(int argc, char const *argv[])

@@ -48,6 +48,19 @@ bool AdjacencyList::del_node(int node_index, vector<int> node_parent) {
     return true;
 }
 
+
+void AdjacencyList::del_edge(int from_node, int to_node) {
+    for(int j=0; j<Alist[from_node].size(); j++) {
+        if(Alist[from_node][j]->next_node==to_node) {
+            // 别删数据
+            // delete Alist[parent_idx][j];
+            Alist[from_node].erase(Alist[from_node].begin() + j);
+            break;
+        }
+    }
+}
+
+
 vector<int> AdjacencyList::get_son_node(int node_index) {
     vector<int> node_son;
     int node_cnt = Alist[node_index].size();
@@ -83,12 +96,12 @@ void AdjacencyList::show_list() {
     }
 }
 
-// bool AdjacencyList::judge_exist_edge(int in_node, int out_node) {
-//     for(int i=0; i<Alist[in_node].size(); i++)
-//         if(Alist[in_node][i]->next_node == out_node)
-//             return true;
-//     return false;
-// }
+bool AdjacencyList::judge_exist_edge(int in_node, int out_node) {
+    for(int i=0; i<Alist[in_node].size(); i++)
+        if(Alist[in_node][i]->next_node == out_node)
+            return true;
+    return false;
+}
 
 // void AdjacencyList::show_exist_node() {
 //     for(int i=0; i<exist_node.size(); i++)

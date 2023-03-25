@@ -21,7 +21,8 @@ public:
     void show_list();
     // void show_exist_node();
     std::vector<int> get_son_node(int node_index);
-    // bool judge_exist_edge(int in_node, int out_node);
+    void del_edge(int from_node, int to_node);
+    bool judge_exist_edge(int in_node, int out_node);
 private:
     std::vector<std::vector<Edge*> > Alist;
     // std::vector<bool> exist_node;
