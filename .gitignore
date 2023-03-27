@@ -9,5 +9,5 @@ build/*
 #data
 *.d
 *.gch
-doc
+doc/*
 
