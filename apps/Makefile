@@ -1,5 +1,5 @@
 #========================================================
-# Makefile of GraphRP
+# Makefile of (homework FAS)
 #========================================================
 
 # 2023.3 by zlp
@@ -64,20 +64,20 @@ PCC = g++
 PCFLAGS = -std=c++14 -O3 $(INTT) $(INTE) $(CODE) $(PD) $(MEM) $(INCLUDE_FLAG)
 endif
 
-RAW_COMMON = COO.h reorderMap.h config.h reorder.h ligra.h graph.h compressedVertex.h vertex.h utils.h IO.h parallel.h gettime.h index_map.h maybe.h sequence.h edgeMap_utils.h binary_search.h quickSort.h blockRadixSort.h transpose.h parseCommandLine.h byte.h byteRLE.h nibble.h byte-pd.h byteRLE-pd.h nibble-pd.h vertexSubset.h encoder.C decoder.C
+RAW_COMMON = ligra.h graph.h compressedVertex.h vertex.h utils.h IO.h parallel.h gettime.h index_map.h maybe.h sequence.h edgeMap_utils.h binary_search.h quickSort.h blockRadixSort.h transpose.h parseCommandLine.h byte.h byteRLE.h nibble.h byte-pd.h byteRLE-pd.h nibble-pd.h vertexSubset.h encoder.C decoder.C
 INNER_APPS = encoder.C decoder.C
 
 COMMON = $(addprefix $(PATH_LIGRA_SOURCE)/, $(RAW_COMMON))
 
-RAW_ALL = PageRank-times PageRank-read encoder decoder BFS BC BellmanFord Components Components-Shortcut Radii PageRank PageRankDelta BFSCC BFS-Bitvector KCore MIS Triangle CF
+RAW_ALL = PageRank SCC
 ALL = $(addprefix $(PATH_OBJECT_BUILD)/, $(RAW_ALL))
 
 all: $(ALL)
 
-$(PATH_OBJECT_BUILD)/% : %.C $(COMMON) $(INNER_APPS)
+$(PATH_OBJECT_BUILD)/% : %.C $(COMMON)
 	$(PCC) $(PCFLAGS) -o $@ $<
 
-% : %.C $(COMMON) $(INNER_APPS)
+% : %.C $(COMMON)
 	$(PCC) $(PCFLAGS) -o $(PATH_OBJECT_BUILD)/$@ $<
 
 # if COMMON has prefix, no need
@@ -85,9 +85,6 @@ ifeq ("$(PATH_LIGRA_SOURCE)", ".")
 $(COMMON):
 	cp ../ligra/$@ .
 endif
-
-$(INNER_APPS):
-	cp ../ligra/$@ .
 
 .PHONY : clean   # 伪文件
 

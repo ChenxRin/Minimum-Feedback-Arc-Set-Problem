@@ -4,8 +4,6 @@
 
 // created: 2023.3 by zlp
 
-// TODO: for now combine with Ligra tight, reconstruct compiling system
-
 #pragma once
 
 #include <iostream>

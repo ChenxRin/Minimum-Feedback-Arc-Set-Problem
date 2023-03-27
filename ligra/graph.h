@@ -1,3 +1,7 @@
+//-------------------------------------------------------
+// GraphRP modify: savefer space, not just use Deletable
+//                 bridge interface and function
+//-------------------------------------------------------
 #ifndef GRAPH_H
 #define GRAPH_H
 #include <iostream>
@@ -33,7 +37,7 @@ public:
   void del() {
     if (allocatedInplace == NULL)
       for (long i=0; i < n; i++) V[i].del();
-    else free(allocatedInplace);
+    else free(allocatedInplace);    //CSR出边
     free(V);
     if(inEdges != NULL) free(inEdges);
   }
@@ -63,6 +67,8 @@ public:
   }
 };
 
+// 压缩的存储用字符数组s来保存
+// 其压缩和取出通过其他接口实现
 template <class vertex>
 struct Compressed_Mem : public Deletable {
 public:
@@ -95,14 +101,16 @@ public:
   }
 };
 
+// 封装其不同，可表示压缩的图，也可表示不压缩的
+// 通过大小sizeof来区分是否压缩的
 template <class vertex>
 struct graph {
   vertex *V;
-  long n;
-  long m;
+  long n;  //点数
+  long m;  //边数
   bool transposed;
   uintE* flags;
-  Deletable *D;
+  Deletable *D;   //存放图的信息
 
 graph(vertex* _V, long _n, long _m, Deletable* _D) : V(_V), n(_n), m(_m),
   D(_D), flags(NULL), transposed(0) {}
@@ -112,8 +120,14 @@ graph(vertex* _V, long _n, long _m, Deletable* _D, uintE* _flags) : V(_V),
 
   void del() {
     if (flags != NULL) free(flags);
-    D->del();
-    free(D);
+    if(D!=nullptr){
+      D->del();
+      free(D);
+    }else{  // no D, means space control by vertex
+      // only uncompress for now and not in place
+      for (long i=0; i < n; i++) V[i].del();
+      free(V);
+    }
   }
 
   void transpose() {
@@ -125,6 +139,13 @@ graph(vertex* _V, long _n, long _m, Deletable* _D, uintE* _flags) : V(_V),
       transposed = !transposed;
     }
   }
+
+  //--------------------------------------------------------------
+  // bridge for GraphRP
+  //--------------------------------------------------------------
+  vertex &operator[](size_t i){return V[i];}
+  inline size_t getNumsV(){return n;}
+  inline size_t getNumsE(){return m;}
 };
 
 template <class vertex>
@@ -150,11 +171,13 @@ hypergraph(vertex* _V, vertex* _H, long _nv, long _mv, long _nh, long _mh,  Dele
     D->del();
     free(D);
   }
+  
   void initFlags() {
     flags = newA(uintE,max(nv,nh));
     parallel_for(long i=0;i<max(nv,nh);i++) flags[i]=UINT_E_MAX;
   }
-  
+
+  //交换出边和入边，无向图不操作
   void transpose() {
     if ((sizeof(vertex) == sizeof(asymmetricVertex)) ||
         (sizeof(vertex) == sizeof(compressedAsymmetricVertex))) {
@@ -169,3 +192,5 @@ hypergraph(vertex* _V, vertex* _H, long _nv, long _mv, long _nh, long _mh,  Dele
   }
 };
 #endif
+
+

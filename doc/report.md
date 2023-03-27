@@ -1,3 +1,11 @@
+## Strongly Connected Components
+
+### Tarjan算法
+
+
+
+
+
 
 
 ## 动机
@@ -28,14 +36,12 @@
 
 
 
-
-
-## Strongly Connected Components
-
-### 
-
-
-
-
-
 ## PageRank
+
+
+
+
+
+## 参考
+
+* R. Tarjan, "Depth-first search and linear graph algorithms," *12th Annual Symposium on Switching and Automata Theory (swat 1971)*, East Lansing, MI, USA, 1971, pp. 114-121, doi: 10.1109/SWAT.1971.10.
