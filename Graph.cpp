@@ -21,9 +21,9 @@ Graph::Graph(int node_cnt) {
     node_count = node_cnt;
 }
 
-bool Graph::insert_node(int from_node, int to_node, int edge_weight) {
-    out_graph.insert_node(from_node, to_node, edge_weight);
-    in_graph.insert_node(to_node, from_node, edge_weight);
+bool Graph::insert_node(int from_node, int to_node, int edge_weight, int edge_id) {
+    out_graph.insert_node(from_node, to_node, edge_weight, edge_id);
+    in_graph.insert_node(to_node, from_node, edge_weight, edge_id);
     // update
     update_degree(from_node);
     update_degree(to_node);
@@ -127,6 +127,9 @@ int Graph::get_exist_node_cnt() {
     return node_count;
 }
 
+int Graph::get_out_degree(int node_index){
+    return out_graph.get_outdegree(node_index);
+}
 
 vector<int> Graph::get_out_nodes(int node_index) {
     return out_graph.get_son_node(node_index);
@@ -136,7 +139,15 @@ bool Graph::judge_exist_edge(int in_node, int out_node) {
     return out_graph.judge_exist_edge(in_node, out_node);
 }
 
+void Graph::get_out_edges(int node_index, std::vector<int> &out_node_index){
+    in_graph.get_out_edges(node_index, out_node_index);
+}
 
+void Graph::linegraph(int edge_cnt){
+    out_graph.getlinegraph1(edge_cnt);
+    in_graph.getlinegraph1(edge_cnt);
+    node_count = edge_cnt;
+}
 // int main(int argc, char const *argv[])
 // {
 //     Graph graph(7);

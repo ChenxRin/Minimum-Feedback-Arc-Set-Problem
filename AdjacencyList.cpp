@@ -1,4 +1,5 @@
 #include<iostream>
+#include<string.h>
 // #include<algorithm>
 // #include<vector>
 
@@ -14,10 +15,11 @@ AdjacencyList::AdjacencyList(int node_count) {
 }
 
 
-bool AdjacencyList::insert_node(int from_node, int to_node, int edge_weight) {
+bool AdjacencyList::insert_node(int from_node, int to_node, int edge_weight, int edge_id) {
     Edge* edge = new Edge();
     edge->next_node = to_node;
     edge->weight = edge_weight;
+    edge->id = edge_id;
     // cout << edge->next_node << " " << edge->weight << endl;
     Alist[from_node].push_back(edge);
     return true;
@@ -101,6 +103,85 @@ bool AdjacencyList::judge_exist_edge(int in_node, int out_node) {
         if(Alist[in_node][i]->next_node == out_node)
             return true;
     return false;
+}
+
+void AdjacencyList::get_out_edges(int node_index, std::vector<int> &out_node_index){
+    int size = AdjacencyList::get_outdegree(node_index);
+    for(int i = 0; i < size; i++){
+        out_node_index.emplace_back(Alist[node_index][i]->next_node);
+    }
+}
+
+void AdjacencyList::init_visited(){
+    visited = new int[Alist.size()];
+    memset(visited, 0, Alist.size() * sizeof(int));
+}
+
+int AdjacencyList::get_num_of_edges(){
+    int n;
+    for(int i = 0; i < Alist.size(); i++){
+        n += Alist[i].size();
+    }
+    return n;
+}
+
+void AdjacencyList::linegraph(int node_index, int pre_edge_index, std::vector<std::vector<Edge*> > &linelist){
+    visited[node_index] = 1;
+    for(int i = 0; i < Alist[node_index].size(); i++){
+        Edge *edge = new Edge;
+        edge->next_node = Alist[node_index][i]->id;
+        linelist[pre_edge_index].emplace_back(edge);
+        // cout<<node_index<<"->"<<Alist[node_index][i]->next_node<<"\t"<<pre_edge_index<<"->"<<Alist[node_index][i]->id<<endl;
+        // if(pre_edge_index == 2)cout<<"---------\n"<<Alist[node_index][i]->id<<"  "<<node_index<<"  "<<i<<"  "<<linelist[2][i]->next_node<<"\n---------\n"<<endl;
+        if(visited[Alist[node_index][i]->next_node] == 0){
+            //cout<<"in!"<<endl;
+            AdjacencyList::linegraph(Alist[node_index][i]->next_node, Alist[node_index][i]->id, linelist);
+        }
+        else{
+            for(int j = 0; j < Alist[Alist[node_index][i]->next_node].size(); j++){
+                Edge *edge1 = new Edge;
+                edge1->next_node = Alist[Alist[node_index][i]->next_node][j]->id;
+                linelist[Alist[node_index][i]->id].emplace_back(edge1);
+            }
+        }
+    }
+}
+
+/*递归（论文中方法）*/
+void AdjacencyList::getlinegraph1(int edge_cnt){
+    std::vector<std::vector<Edge*> > linelist;
+    linelist.resize(edge_cnt + 1);
+    init_visited();
+    linegraph(0, edge_cnt, linelist);
+    linelist.pop_back();
+
+    Alist.swap(linelist);
+    // for(int i = 0; i < edge_cnt; i++){
+    //     for(int j = 0; j < Alist[i].size(); j++){
+    //         cout<<i<<" "<<Alist[i][j]->next_node<<endl;
+    //     }
+    // }
+}
+
+/*三层循环实现*/
+void AdjacencyList::getlinegraph2(int edge_cnt){
+    std::vector<std::vector<Edge*> > linelist;
+    linelist.resize(edge_cnt);
+    //std::vector<Edge*> tmp_list;
+
+    for(int i = 0; i < Alist.size(); i++){
+        for(int j = 0; j < Alist[i].size(); j++){
+            for(int k = 0; k < Alist[Alist[i][j]->next_node].size(); k++){
+                Edge *edge = new Edge;
+                edge->next_node = Alist[Alist[i][j]->next_node][k]->id;
+                linelist[Alist[i][j]->id].emplace_back(edge);
+            }
+            // linelist.emplace_back(tmp_list);
+            // tmp_list.clear();
+        }
+    }
+
+    Alist.swap(linelist);
 }
 
 // void AdjacencyList::show_exist_node() {
