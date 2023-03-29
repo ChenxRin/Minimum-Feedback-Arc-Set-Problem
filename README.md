@@ -10,6 +10,7 @@
 ```python
 git branch # 查看分支状态
 git checkout -b dev origin/dev # 本地关联远程分支dev
+git checkout <branch> # 切换分支
 
 # 提交三板斧
 git add filename 
