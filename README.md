@@ -19,6 +19,12 @@ git push origin dev # 提交到dev分支
 git pull # 如果提示冲突多用
 ```
 
+### 代码运行
+
+```
+bash run.sh
+```
+
 ### 其它
 
 有问题方便的话可以写到project的issue中作为记录。

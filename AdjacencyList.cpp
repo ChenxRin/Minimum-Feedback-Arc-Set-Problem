@@ -14,6 +14,20 @@ AdjacencyList::AdjacencyList(int node_count) {
 }
 
 
+// AdjacencyList::AdjacencyList(const AdjacencyList &obj)
+// {
+//     cout << "调用拷贝构造函数并为指针 ptr 分配内存" << endl;
+//     for(int i=0; i<obj.Alist.size(); i++) {
+//         int temp = obj.Alist[i].size();
+//         for(int j=0; j<temp; j++) {
+//             Edge* edge = new Edge();
+//             edge->next_node = obj.Alist[i][j]->next_node;
+//             edge->weight = obj.Alist[i][j]->edge_weight;
+//             Alist[i].push_back(edge);
+//         }
+//     }
+// }
+
 bool AdjacencyList::insert_node(int from_node, int to_node, int edge_weight) {
     Edge* edge = new Edge();
     edge->next_node = to_node;

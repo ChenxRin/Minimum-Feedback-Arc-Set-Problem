@@ -14,6 +14,7 @@ class AdjacencyList
 public:
     AdjacencyList() {};
     AdjacencyList(int node_count);
+    // AdjacencyList( const AdjacencyList &obj); 
     // ~AdjacencyList();
     bool insert_node(int from_node, int to_node, int edge_weight);
     bool del_node(int node_index, std::vector<int> node_parent);
