@@ -7,16 +7,33 @@
 #include <tuple>
 #include <string>
 #include <algorithm>
+#include <fstream>
 
 using namespace std;
 
 
-Graph get_data() {
-    Graph graph(7);
-    int x[] = {0, 1, 2, 3, 3, 4, 5, 6};
-    int y[] = {1, 2, 3, 1, 0, 5, 6, 4};
-    for(int i=0; i<8; i++)
-        graph.insert_node(x[i], y[i], 1);
+Graph get_data(string file_name) {
+    /* 
+    本函数从txt文件中读取数据。
+    */
+    // get node_cnt
+    int node_cnt = 7;
+    Graph graph(node_cnt);
+    //
+    ifstream infile(file_name, ios::in);
+    string line;
+    while (getline(infile, line)) {
+        int i = 0;
+        string x, y;
+        int line_len = line.length();
+        while(line[i]!=',')
+            x += line[i++];
+        i++; // skip ,
+        while(i<line_len)
+            y += line[i++];
+        graph.insert_node(stoi(x), stoi(y), 1);
+    }
+    infile.close();
     return graph;
 }
 
@@ -84,12 +101,14 @@ void run(Graph graph) {
     for(int i=0; i<back_edge_set.size(); i++)
         graph.del_edge(get<0>(back_edge_set[i]), get<1>(back_edge_set[i]));
     graph.show_graph();
+    // TODO：在运行完一个实例之后，增加一个操作用于释放掉相关的内存空间，节省内存空间。
 }
 
 
 
 int main(int argc, char const *argv[])
 {
-    run(get_data());
+    string file_name = "./data/example.txt";
+    run(get_data(file_name));
     return 0;
 }

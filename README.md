@@ -10,6 +10,7 @@
 ```python
 git branch # 查看分支状态
 git checkout -b dev origin/dev # 本地关联远程分支dev
+git checkout <branch> # 切换分支
 
 # 提交三板斧
 git add filename 
@@ -17,6 +18,12 @@ git commit -m "add env"
 git push origin dev # 提交到dev分支
 
 git pull # 如果提示冲突多用
+```
+
+### 代码运行
+
+```
+bash run.sh
 ```
 
 ### 其它
