@@ -3,7 +3,6 @@
 
 #include<vector>
 
-
 struct Edge {
     int next_node;        // 下一个结点编号
     int weight;        // 该边的权重
@@ -31,6 +30,9 @@ public:
     void init_visited();
     void getlinegraph1(int edge_cnt);
     void getlinegraph2(int edge_cnt);
+
+    //==============================================
+    inline int getNeighbor(int v, int i){return Alist[v][i]->next_node;}
 private:
     std::vector<std::vector<Edge*> > Alist;
     // std::vector<bool> exist_node;

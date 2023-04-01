@@ -208,5 +208,3 @@ void AdjacencyList::getlinegraph2(int edge_cnt){
 
 //     return 0;
 // }
-
-

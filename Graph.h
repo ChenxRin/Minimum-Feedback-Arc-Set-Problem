@@ -4,7 +4,6 @@
 #include<vector>
 #include "AdjacencyList.h"
 
-
 class Graph {
 public:
     Graph(int node_cnt);
@@ -26,6 +25,13 @@ public:
     int get_out_degree(int node_index);
     void get_out_edges(int node_index, std::vector<int> &out_node_index);
     void linegraph(int edge_cnt);
+
+    //======================================================
+    // interface need by SCC
+    inline int getOutDegree(int v){return out_graph.get_outdegree(v);}
+    inline int getOutNeighbor(int v, int i){return out_graph.getNeighbor(v, i);}
+    inline size_t getNumsV(){return node_count;}
+    size_t getNumsE();
 
 private:
     AdjacencyList out_graph;
