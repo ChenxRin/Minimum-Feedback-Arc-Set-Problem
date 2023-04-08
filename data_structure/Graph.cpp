@@ -1,5 +1,5 @@
-#include "Graph.h"
-#include "AdjacencyList.h"
+#include "../head_file/Graph.h"
+#include "../head_file/AdjacencyList.h"
 
 #include<iostream>
 #include<vector>
@@ -19,16 +19,27 @@ Graph::Graph(int node_cnt) {
     exist_node.resize(node_cnt);
     fill(exist_node.begin(), exist_node.end(), true);
     node_count = node_cnt;
+    raw_node_cnt = node_cnt;
 }
 
-bool Graph::insert_node(int from_node, int to_node, int edge_weight) {
-    out_graph.insert_node(from_node, to_node, edge_weight);
-    in_graph.insert_node(to_node, from_node, edge_weight);
+// bool Graph::insert_node(int from_node, int to_node, int edge_weight) {
+//     out_graph.insert_node(from_node, to_node, edge_weight);
+//     in_graph.insert_node(to_node, from_node, edge_weight);
+//     // update
+//     update_degree(from_node);
+//     update_degree(to_node);
+//     return true;
+// }
+
+bool Graph::insert_node(int from_node, int to_node, int scc_id, int edge_id) {
+    out_graph.insert_node(from_node, to_node, scc_id, edge_id);
+    in_graph.insert_node(to_node, from_node, scc_id, edge_id);
     // update
     update_degree(from_node);
     update_degree(to_node);
     return true;
 }
+
 
 bool Graph::del_node(int node_index) {
     exist_node[node_index] = false;
@@ -48,6 +59,8 @@ bool Graph::del_node(int node_index) {
 
 
 void Graph::del_edge(int from_node, int to_node) {
+    update_degree(from_node);
+    update_degree(to_node);
     out_graph.del_edge(from_node, to_node);
     in_graph.del_edge(to_node, from_node);
 }
@@ -123,6 +136,7 @@ int Graph::get_max_delta_node() {
     return node_index;
 }
 
+
 int Graph::get_exist_node_cnt() {
     return node_count;
 }
@@ -134,6 +148,54 @@ vector<int> Graph::get_out_nodes(int node_index) {
 
 bool Graph::judge_exist_edge(int in_node, int out_node) {
     return out_graph.judge_exist_edge(in_node, out_node);
+}
+
+void Graph::get_in_edges(int node_index, std::vector<int> &in_node_index){
+    in_graph.get_out_edges(node_index, in_node_index);
+}
+
+Graph Graph::linegraph(int edge_cnt){
+    Graph linegraph(edge_cnt);
+    std::vector<std::vector<int>> linelist(2);
+    //cout<<"开始获取线图"<<endl;
+    linelist = out_graph.getlinegraph2(edge_cnt);
+    for(int i = 0; i < linelist[0].size(); i++){
+        linegraph.insert_node(linelist[0][i], linelist[1][i], 1, 1);
+    }
+    //linegraph.show_graph();
+    return linegraph;
+}
+
+void Graph::del_edge_id(int edge_id){
+    out_graph.in_graph_del_edge_id(edge_id);
+    in_graph.in_graph_del_edge_id(edge_id);
+}
+
+bool Graph::is_acyclic(){
+    return out_graph.is_acyclic();
+}
+
+Graph Graph::get_subgraph(std::vector<int> node_id){
+    Graph subgraph(node_id.size());
+    std::vector<std::vector<int>> sublist(3);
+    sublist = out_graph.get_sublist(node_id);
+    //cout<<"开始插入"<<endl;
+    for(int i = 0; i < sublist[0].size(); i++){
+        subgraph.insert_node(sublist[0][i], sublist[1][i], 1, sublist[2][i]);
+    }
+    return subgraph;
+}
+
+int Graph::get_edge_id(int node_index){
+    return out_graph.get_edge_id(node_index);
+}
+
+void Graph::show_subgraph(){
+    out_graph.show_sublist();
+}
+
+void Graph::give_cc_id(int node_index, int cc_id){
+    out_graph.give_cc_id(node_index, cc_id);
 }
 
 
