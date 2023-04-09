@@ -1,5 +1,5 @@
-#include "AdjacencyList.h"
-#include "Graph.h"
+#include "head_file/AdjacencyList.h"
+#include "head_file/Graph.h"
 #include "SCC.hpp"
 
 #include <iostream>
@@ -47,7 +47,7 @@ const double min_delta = 1e-10;    //确认迭代结束的参数
 
 Graph get_data(string filename, int node_cnt, int edge_cnt) {
     Graph graph(node_cnt);
-    cout<<"准备读入数据"<<endl;
+    //cout<<"准备读入数据"<<endl;
     ifstream fin;
     fin.open(filename, ios::in);
     int *x;
@@ -68,7 +68,7 @@ Graph get_data(string filename, int node_cnt, int edge_cnt) {
         
     delete(x);
     delete(y);
-    cout<<"数据读入成功！"<<endl;
+    // cout<<"数据读入成功！"<<endl;
     return graph;
 }
 
@@ -161,42 +161,44 @@ void run(Graph graph, int edge_cnt){
     // cout<<"/========================原图===========================/"<<endl;
     // graph.show_graph();
     Graph linegraph(edge_cnt);
-    cout<<"开始获取线图"<<endl;
+    // cout<<"开始获取线图"<<endl;
     //graph = get_data();
     linegraph = graph.linegraph(edge_cnt);
     //linegraph.show_graph();
-    cout<<"线图获取成功！"<<endl;
+    // cout<<"线图获取成功！"<<endl;
     // cout<<"/========================线图===========================/"<<endl;
     //linegraph.show_graph();
-    cout<<"开始获取连通分量"<<endl;
+    // cout<<"开始获取连通分量"<<endl;
     SCCEngine<Graph> scc_worker(&linegraph);
     scc_worker.findSCC();
-    cout<<"连通分量获取成功！"<<endl;
+    // cout<<"连通分量获取成功！"<<endl;
     int numsSCC = scc_worker.getNumsSCC();
-    cout<<"连通分量个数为："<<numsSCC<<endl;
+    // cout<<"连通分量个数为："<<numsSCC<<endl;
     /*对连通分量进行FAS*/
     vector<int> SubgraphNodeCnt(numsSCC);
         
     SubgraphNodeCnt = scc_worker.SubGraphNodeCnt();
-    cout<<"成功获取每个连通分量的结点数"<<endl;
+    // cout<<"成功获取每个连通分量的结点数"<<endl;
     vector<int> dn;
     int del_cnt = 0;
+    //cout<<"去除所有有自环的连通分量"<<endl;
+    vector<int> self_loop;
     for(int i = 0; i < numsSCC; i++){        
         if(SubgraphNodeCnt[i] > 1){
-            cout<<"开始生成连通分量对应的子图"<<endl;
+            // cout<<"开始生成连通分量对应的子图"<<endl;
             Graph sublinegraph(SubgraphNodeCnt[i]);            
             //cout<<"in"<<endl;
             scc_worker.GetSubGraph(sublinegraph, linegraph, i, SubgraphNodeCnt[i]);
-            cout<<"成功生成子图"<<endl;
+            // cout<<"成功生成子图"<<endl;
             int N = sublinegraph.get_raw_node_cnt();
             double oldpr[N] = {0};
             double newpr[N] = {0};
-            cout<<"开始进行pagerankfas"<<endl;
+            // cout<<"开始进行pagerankfas"<<endl;
             while(!sublinegraph.is_acyclic()){
                 int del_id = _pagerank(sublinegraph, oldpr, newpr);
                 dn.emplace_back(sublinegraph.get_edge_id(del_id));
                 sublinegraph.del_node(del_id);
-                del_cnt++;
+                //del_cnt++;
                 for(int i = 0; i < N; i++){
                     if(sublinegraph.get_out_degree(i) == 0 && !sublinegraph.is_deleted(i)){
                         sublinegraph.del_node(i);
@@ -204,7 +206,14 @@ void run(Graph graph, int edge_cnt){
                 }
             }
         }    
+        else{
+            self_loop.emplace_back(i);
+        }
     }
+    //cout<<"检测单个结点的连通分量是否有自环"<<endl;
+    scc_worker.GetSelfLoop(linegraph, self_loop, dn);
+    //cout<<"处理完成"<<endl;
+    del_cnt = dn.size();
     cout<<"割集边数："<<del_cnt<<endl;
     double fas = (double)del_cnt/(double)edge_cnt;
     cout<<"FAS% = "<<fas<<endl;
@@ -225,13 +234,24 @@ void run(Graph graph, int edge_cnt){
 int main(){
     int node_cnt = 10617;
     int edge_cnt = 72172;
-    string filename = "wordassociation-2011.txt";
+    string filename = "data/wordassociation-2011.txt";
     struct timeval t1, t2;
     double second;
+    cout << "算法PageRankFAS运行结果如下：" << endl;
+    cout << "开始处理数据集wordassociation-2011.txt，预计花费10分钟：" << endl;
     gettimeofday(&t1, NULL);
     run(get_data(filename, node_cnt, edge_cnt), edge_cnt);
     gettimeofday(&t2, NULL);
     second = (t2.tv_sec - t1.tv_sec) + (double)(t2.tv_usec - t1.tv_usec) / 1000000.0;
-    cout<<"共花费"<<second<<" s"<<endl;
+    cout<<"运行时间为："<<second<<" s"<<endl;
+    node_cnt = 69244;
+    edge_cnt = 276143;
+    filename = "data/enron.txt";
+    cout << "开始处理数据集enron.txt，预计花费8小时：" << endl;
+    gettimeofday(&t1, NULL);
+    run(get_data(filename, node_cnt, edge_cnt), edge_cnt);
+    gettimeofday(&t2, NULL);
+    second = (t2.tv_sec - t1.tv_sec) + (double)(t2.tv_usec - t1.tv_usec) / 1000000.0;
+    cout<<"运行时间为："<<second<<" s"<<endl;
     return 0;
 }

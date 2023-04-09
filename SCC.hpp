@@ -182,6 +182,26 @@ public:
         graph.give_cc_id(node_index, cc_ids[node_index]);
     }
 
+    void GetSelfLoop(COM_Graph graph, vector<int> self_loop, vector<int> &dn){
+        int node_cnt = self_loop.size();
+        //cout<<node_cnt<<endl;
+        int p = 0;
+        int q = 0;
+        while(node_cnt > q){
+            if(cc_ids[p] == self_loop[q]){
+                if(!graph.no_self_loop(p)){
+                    dn.emplace_back(p);
+                }
+                q++;
+                //cout<<"已检测完第"<<q<<"个结点"<<endl;
+            }
+            p++;
+            if(p == graph.get_raw_node_cnt()){
+                p = 0;
+            }
+        }
+    }
+
 private:
     // static
     COM_Graph* G_p{ nullptr };
