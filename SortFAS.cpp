@@ -110,9 +110,9 @@ double run(Graph graph, int edge_cnt) {
     // for(int i=0; i<back_edge_set.size(); i++)
     //     cout << get<0>(back_edge_set[i]) << "->" << get<1>(back_edge_set[i]) << endl;
     // // 输出运行结果为：去除后向边之后的子图。
-    for(int i=0; i<back_edge_set.size(); i++)
-        graph.del_edge(get<0>(back_edge_set[i]), get<1>(back_edge_set[i]));
-    cout << graph.is_acyclic() << endl;
+    // for(int i=0; i<back_edge_set.size(); i++)
+    //     graph.del_edge(get<0>(back_edge_set[i]), get<1>(back_edge_set[i]));
+    // cout << graph.is_acyclic() << endl;
     // graph.show_graph();
     // 验证生成的图是否成功：判断一下图是不是已经无环。
     // TODO：在运行完一个实例之后，增加一个操作用于释放掉相关的内存空间，节省内存空间。
