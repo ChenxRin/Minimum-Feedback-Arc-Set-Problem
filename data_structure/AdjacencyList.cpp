@@ -247,7 +247,7 @@ bool AdjacencyList::is_acyclic(){
             if(indegree_tmp[v] == 0)node.push(v);
         }
     }
-    cout << node_cnt << " " << number << endl;
+    //cout << "环路检测中：" << node_cnt << " " << number << endl;
     delete(indegree_tmp);
     return node_cnt == number;
 }
@@ -297,7 +297,14 @@ void AdjacencyList::give_cc_id(int node_index, int cc_id){
     Alist[node_index][0]->cc_id = cc_id;
 }
 
-
+bool AdjacencyList::no_self_loop(int node_index){
+    for(int i = 0; i < Alist[node_index].size(); i++){
+        if(node_index == Alist[node_index][i]->next_node){
+            return false;
+        }
+    }
+    return true;
+}
 
 // int main(int argc, char const *argv[])
 // {

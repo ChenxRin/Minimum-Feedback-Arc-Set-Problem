@@ -51,5 +51,3 @@ vector<tuple<int, int> > get_back_edge_set(vector<int> sort_vec, Graph graph) {
     }
     return back_edge_set;
 }
-
-

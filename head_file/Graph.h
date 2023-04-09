@@ -35,6 +35,7 @@ public:
     inline bool is_deleted(int node_index){return out_graph.is_deleted(node_index);}
     void show_subgraph();
     void give_cc_id(int node_index, int cc_id);
+    bool no_self_loop(int node_index);
 
     //======================================================
     // interface need by SCC

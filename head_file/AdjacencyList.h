@@ -46,6 +46,7 @@ public:
     inline bool is_deleted(int node_index){return deleted[node_index];}
     void show_sublist();
     void give_cc_id(int node_index, int cc_id);
+    bool no_self_loop(int node_index);
 
     inline int getNeighbor(int v, int i){return Alist[v][i]->next_node;}
 

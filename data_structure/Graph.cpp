@@ -150,6 +150,10 @@ bool Graph::judge_exist_edge(int in_node, int out_node) {
     return out_graph.judge_exist_edge(in_node, out_node);
 }
 
+int Graph::get_out_degree(int node_index){
+    return out_graph.get_outdegree(node_index);
+}
+
 void Graph::get_in_edges(int node_index, std::vector<int> &in_node_index){
     in_graph.get_out_edges(node_index, in_node_index);
 }
@@ -198,6 +202,9 @@ void Graph::give_cc_id(int node_index, int cc_id){
     out_graph.give_cc_id(node_index, cc_id);
 }
 
+bool Graph::no_self_loop(int node_index){
+    return out_graph.no_self_loop(node_index);
+}
 
 // int main(int argc, char const *argv[])
 // {

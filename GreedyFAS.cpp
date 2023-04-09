@@ -1,6 +1,7 @@
 #include "head_file/Graph.h"
 #include "head_file/AdjacencyList.h"
 #include "utils.cpp"
+#include "SCC.hpp"
 
 #include <iostream>
 #include <vector>
@@ -114,9 +115,9 @@ double run(Graph graph, int edge_cnt) {
     // for(int i=0; i<back_edge_set.size(); i++)
     //     cout << get<0>(back_edge_set[i]) << "->" << get<1>(back_edge_set[i]) << endl;
     // // 输出运行结果为：去除后向边之后的子图。
-    for(int i=0; i<back_edge_set.size(); i++)
-        graph.del_edge(get<0>(back_edge_set[i]), get<1>(back_edge_set[i]));
-    cout << graph.is_acyclic() << endl;
+    // for(int i=0; i<back_edge_set.size(); i++)
+    //     graph.del_edge(get<0>(back_edge_set[i]), get<1>(back_edge_set[i]));
+    // cout << graph.is_acyclic() << endl;
     // graph.show_graph();
     // TODO：在运行完一个实例之后，增加一个操作用于释放掉相关的内存空间，节省内存空间。
     end = clock();
