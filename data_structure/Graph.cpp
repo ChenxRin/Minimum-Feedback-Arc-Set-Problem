@@ -22,14 +22,6 @@ Graph::Graph(int node_cnt) {
     raw_node_cnt = node_cnt;
 }
 
-// bool Graph::insert_node(int from_node, int to_node, int edge_weight) {
-//     out_graph.insert_node(from_node, to_node, edge_weight);
-//     in_graph.insert_node(to_node, from_node, edge_weight);
-//     // update
-//     update_degree(from_node);
-//     update_degree(to_node);
-//     return true;
-// }
 
 bool Graph::insert_node(int from_node, int to_node, int scc_id, int edge_id) {
     out_graph.insert_node(from_node, to_node, scc_id, edge_id);
@@ -80,6 +72,7 @@ void Graph::show_graph() {
     in_graph.show_list();
 }
 
+
 void Graph::show_degree() {
     cout << "出度打印：" << endl;
     for(int i=0; i<out_degree.size(); i++)
@@ -99,6 +92,7 @@ void Graph::show_exist_node() {
         cout << i << " " << exist_node[i] << endl;
 }
 
+
 int Graph::get_source_node() {
     if(node_count==0)
         return -1;
@@ -110,6 +104,7 @@ int Graph::get_source_node() {
     return -1;
 }
 
+
 int Graph::get_sink_node() {
     if(node_count==0)
         return -1;
@@ -120,6 +115,7 @@ int Graph::get_sink_node() {
     }
     return -1;
 }
+
 
 int Graph::get_max_delta_node() {
     if(node_count==0)
@@ -146,38 +142,43 @@ vector<int> Graph::get_out_nodes(int node_index) {
     return out_graph.get_son_node(node_index);
 }
 
+
 bool Graph::judge_exist_edge(int in_node, int out_node) {
     return out_graph.judge_exist_edge(in_node, out_node);
 }
+
 
 int Graph::get_out_degree(int node_index){
     return out_graph.get_outdegree(node_index);
 }
 
+
 void Graph::get_in_edges(int node_index, std::vector<int> &in_node_index){
     in_graph.get_out_edges(node_index, in_node_index);
 }
 
+
 Graph Graph::linegraph(int edge_cnt){
     Graph linegraph(edge_cnt);
     std::vector<std::vector<int>> linelist(2);
-    //cout<<"开始获取线图"<<endl;
     linelist = out_graph.getlinegraph2(edge_cnt);
     for(int i = 0; i < linelist[0].size(); i++){
         linegraph.insert_node(linelist[0][i], linelist[1][i], 1, 1);
     }
-    //linegraph.show_graph();
     return linegraph;
 }
+
 
 void Graph::del_edge_id(int edge_id){
     out_graph.in_graph_del_edge_id(edge_id);
     in_graph.in_graph_del_edge_id(edge_id);
 }
 
+
 bool Graph::is_acyclic(){
     return out_graph.is_acyclic();
 }
+
 
 Graph Graph::get_subgraph(std::vector<int> node_id){
     Graph subgraph(node_id.size());
@@ -190,41 +191,24 @@ Graph Graph::get_subgraph(std::vector<int> node_id){
     return subgraph;
 }
 
+
 int Graph::get_edge_id(int node_index){
     return out_graph.get_edge_id(node_index);
 }
+
 
 void Graph::show_subgraph(){
     out_graph.show_sublist();
 }
 
+
 void Graph::give_cc_id(int node_index, int cc_id){
     out_graph.give_cc_id(node_index, cc_id);
 }
+
 
 bool Graph::no_self_loop(int node_index){
     return out_graph.no_self_loop(node_index);
 }
 
-// int main(int argc, char const *argv[])
-// {
-//     Graph graph(7);
-//     int x[] = {0, 2, 3, 3, 5, 6};
-//     int y[] = {1, 3, 1, 0, 6, 4};
-//     for(int i=0; i<6; i++)
-//         graph.insert_node(x[i], y[i], 1);
-
-//     // graph.show_graph();
-//     // graph.show_degree();
-//     graph.show_exist_node();
-
-//     cout << "删除一个节点3" << endl;
-//     graph.del_node(3);
-
-//     // graph.show_graph();
-//     // graph.show_degree();
-//     graph.show_exist_node();
-
-//     return 0;
-// }
 

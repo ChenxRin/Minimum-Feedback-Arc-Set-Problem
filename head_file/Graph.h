@@ -8,8 +8,6 @@
 class Graph {
 public:
     Graph(int node_cnt);
-    // ~Graph();
-    // bool insert_node(int from_node, int to_node, int edge_weight);
     bool insert_node(int from_node, int to_node, int scc_id, int edge_id);
     bool del_node(int node_index);
     void show_graph();

@@ -34,7 +34,7 @@ bash run.sh
 4. ```data_structure```存放算法的底层数据结构的实现，主要是邻接矩阵和图；
 5. ```.out```文件即是生成的可执行文件；
 6. ```utils.cpp```记录了一些共用的工具函数；
-7. ```GreedyFAS.cpp```实现了贪心算法，```SortFAS```实现了排序算法；
+7. ```GreedyFAS.cpp```实现了贪心算法，```SortFAS```实现了排序算法，```PageRankFAS.cpp```实现了PageRank算法；
 
 ### 其它
 
