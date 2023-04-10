@@ -44,9 +44,13 @@ vector<tuple<int, int> > get_back_edge_set(vector<int> sort_vec, Graph graph) {
     set<int> visited_node;
     for(int i=0; i<sort_vec.size(); i++) {
            vector<int> out_nodes = graph.get_out_nodes(sort_vec[i]);
-            for(int j=0; j<out_nodes.size(); j++)
+            for(int j=0; j<out_nodes.size(); j++) {
                 if(visited_node.find(out_nodes[j]) != visited_node.end())
                     back_edge_set.push_back(make_tuple(sort_vec[i], out_nodes[j]));
+                // 删除自环
+                if(out_nodes[j]==sort_vec[i])
+                    back_edge_set.push_back(make_tuple(sort_vec[i], sort_vec[i]));
+            }
         visited_node.insert(sort_vec[i]);
     }
     return back_edge_set;
