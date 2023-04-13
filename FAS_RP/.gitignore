@@ -1,0 +1,12 @@
+#################
+## used for code
+################
+*.o
+*.out
+*.exe
+.vscode
+build/*
+#data
+*.d
+*.gch
+
